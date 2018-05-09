@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace R3MUS.DevPack.Killbot.Services
 {
@@ -34,7 +35,7 @@ namespace R3MUS.DevPack.Killbot.Services
             }
             catch(Exception ex)
             {
-                System.IO.File.WriteAllText(DateTime.Now.ToString("Killbot_dd_MM_yy_HH:mm:ss.log"), 
+                System.IO.File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\", DateTime.Now.ToString("Killbot_dd_MM_yy_HH:mm:ss.log")), 
                     string.Concat(ex.Message, "\n\n", ex.StackTrace)
                     );
             }
@@ -88,10 +89,10 @@ namespace R3MUS.DevPack.Killbot.Services
             }
             catch(Exception ex)
             {
-                System.IO.File.WriteAllText(DateTime.Now.ToString("Killbot_dd_MM_yy_HH:mm:ss.log"),
+                System.IO.File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\", DateTime.Now.ToString("Killbot_dd_MM_yy_HH:mm:ss.log")),
                     string.Concat(ex.Message, "\n\n", ex.StackTrace)
                     );
-                System.IO.File.WriteAllText(DateTime.Now.ToString("Killbot_RedisQResponse_dd_MM_yy_HH:mm:ss.log"),
+                System.IO.File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\", DateTime.Now.ToString("Killbot_RedisQResponse_dd_MM_yy_HH:mm:ss.log")),
                     msg
                     );
                 return PollRedisQ();
