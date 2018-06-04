@@ -12,8 +12,17 @@ namespace R3MUS.DevPack.Killbot
 {
     public class Program
     {
+        public static string NowString
+        {
+            get
+            {
+                return DateTime.Now.ToString("dd_MM_yy_HH_mm_ss");
+            }
+        }
+
         static void Main(string[] args)
         {
+            CheckPaths();
             var kernel = new StandardKernel(new KillbotModule());
             var killbotService = kernel.Get<IKillbotService>();
             killbotService.Run();
@@ -24,7 +33,7 @@ namespace R3MUS.DevPack.Killbot
             if(!Directory.Exists(string.Concat(Directory.GetCurrentDirectory(), @"\logs\")))
             {
                 Directory.CreateDirectory(string.Concat(Directory.GetCurrentDirectory(), @"\logs\"));
-            }
+            };
         }
     }
 }

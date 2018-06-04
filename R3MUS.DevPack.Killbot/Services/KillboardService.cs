@@ -2,10 +2,7 @@
 using R3MUS.DevPack.Killbot.Models;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace R3MUS.DevPack.Killbot.Services
@@ -24,20 +21,21 @@ namespace R3MUS.DevPack.Killbot.Services
 
         public void ListenForKills()
         {
-            try
-            {
-                Listen = true;
+            Listen = true;
 
-                while (Listen)
+            while (Listen)
+            {
+                try
                 {
                     HandleResponse(PollRedisQ());
+                    System.Threading.Thread.Sleep(200);
                 }
-            }
-            catch(Exception ex)
-            {
-                System.IO.File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\", DateTime.Now.ToString("Killbot_dd_MM_yy_HH:mm:ss.log")), 
-                    string.Concat(ex.Message, "\n\n", ex.StackTrace)
-                    );
+                catch(Exception ex)
+                {
+                    File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\", Program.NowString), 
+                        string.Concat(ex.Message, "\n\n", ex.StackTrace)
+                        );
+                }
             }
         }
 
@@ -89,10 +87,10 @@ namespace R3MUS.DevPack.Killbot.Services
             }
             catch(Exception ex)
             {
-                System.IO.File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\", DateTime.Now.ToString("Killbot_dd_MM_yy_HH:mm:ss.log")),
+                File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\Killbot_", Program.NowString, ".log"),
                     string.Concat(ex.Message, "\n\n", ex.StackTrace)
                     );
-                System.IO.File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\", DateTime.Now.ToString("Killbot_RedisQResponse_dd_MM_yy_HH:mm:ss.log")),
+                File.WriteAllText(string.Concat(Directory.GetCurrentDirectory(), @"\logs\Killbot_RedisQResponse_", Program.NowString, ".log"),
                     msg
                     );
                 return PollRedisQ();
